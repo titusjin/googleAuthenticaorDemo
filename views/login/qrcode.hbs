@@ -1,0 +1,47 @@
+<!-- Top content -->
+<div class="top-content">
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1><strong>Titus DEMO</strong> Login Form</h1>
+                    <div class="description">
+                        <p>
+                            {{description}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>2 step authentication</h3>
+                            <p>Enter ur google authenticator token to second verify</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-key"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <form role="form" action="/secondAuth" method="post" class="login-form">
+                            <img src={{qrSRC}} />
+                            <div class="form-group" style="margin-top:20px;">
+                                <label class="sr-only" for="form-password">Input Token</label>
+                                <input type="password" name="twoAuthToken" placeholder="Input Google Authenticator Token..." class="form-password form-control" id="authtoken">
+                            </div>
+                            <button type="submit" class="btn">Verify Token</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Javascript -->
+<script src="/js/jquery-1.11.1.min.js"></script>
+<script src="/js/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/jquery.backstretch.min.js"></script>
+<script src="/js/scripts.js"></script>
