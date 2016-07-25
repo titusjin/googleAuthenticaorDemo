@@ -23,4 +23,13 @@ auth.generateQRCode = function(){
     // });
 }
 
+auth.test1 = function(callback){
+    console.log('ready to call callback');
+    callback(true);
+}
+
+auth.test2 = function(callback){
+    callback();
+}
+
 module.exports = auth;

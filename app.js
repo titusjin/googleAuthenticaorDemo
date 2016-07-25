@@ -7,6 +7,16 @@ var bodyParser = require('body-parser');
 var debug = require('debug')('smg_service:server');
 var session = require('express-session');
 
+var log4js = require('log4js');
+var mongoAppender = require('log4js-node-mongodb');
+
+log4js.addAppender(
+    mongoAppender.appender({
+      connectionString: 'mongodb://api.dev.storm.mg/smg_logs',
+      collectionName: 'testlogs'
+    })
+);
+
 var http = require('http');
 var app = express();
 
@@ -31,8 +41,10 @@ app.use(session({
 
 var index = require('./routes/index');
 app.use('/', index);
+app.use('/hello', index);
 app.use('/firstLogin', index);
 app.use('/secondAuth', index);
+app.use('/callback', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
