@@ -3,6 +3,20 @@ const gm = require('gm');
 const Promise = require('promise');
 const Path = require('path');
 
+// every json file can be loaded by require operator
+// and once loaded would be js object
+var testJson = require('./package.json');
+
+console.log(typeof testJson);
+
+testJson.getDependencies = () =>{
+    console.log(typeof testJson.dependencies);
+    testJson.dependencies.
+    console.log(testJson.dependencies);
+};
+testJson.getDependencies();
+
+
 function copyFileCallback(err){
     if(err){
         console.error(err);
@@ -69,18 +83,11 @@ var doCopy = function(folderName, result){
 // );
 
 
-var resolve = function(){
-    console.log('I am resolved...');
-}
-var reject = function(){
-    console.log('I am rejected...');
-}
-
+// New test for promise object
 var doTest = function(name){
     console.log('hello ' +  name);
-    return true;
+    return false;
 }
-
 var p1 = new Promise(function(resolve, reject){
     if(doTest('titus')){
         console.log('we here..');
@@ -96,12 +103,23 @@ p1.then(function(successMessage){
     console.log(failMessage);
 });
 
+var v = {};
+v.sayHello = (name) => {
+    console.log('hello ' + name);
+};
+v.sayMore = (message) => {
+    v.sayHello(message);
+};
+
+console.log('v.sayHello is : ' + typeof v.sayHello);
+console.log('v.sayMore is : ' + typeof v.sayMore);
+
+v.sayMore('world');
+
 
 // mkNestedFolder('./titus/haha', function(){
 //     console.log('finished');
 // });
-
-
 
 // p1.then(
 //     function(){

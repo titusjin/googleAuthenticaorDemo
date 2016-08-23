@@ -44,7 +44,8 @@ app.use('/', index);
 app.use('/hello', index);
 app.use('/firstLogin', index);
 app.use('/secondAuth', index);
-app.use('/callback', index);
+app.use('/share', require('./routes/share'));
+app.use('/FBCount', require('./routes/'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

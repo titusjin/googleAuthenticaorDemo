@@ -10,6 +10,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "app-root-path": "^1.0.0",
     "crypto": "0.0.3",
     "express": ">=4.13.4",
     "express-session": "^1.11.3",
