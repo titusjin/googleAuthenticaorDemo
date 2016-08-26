@@ -1,6 +1,7 @@
 var express = require('express');
 var path    = require("path");
 var router  = express.Router();
+var Request = require('request');
 
 router.get('/', function(req, res, next) {
     res.render('share/check',
@@ -11,69 +12,62 @@ router.get('/', function(req, res, next) {
     );
 });
 
-// router.get('/hello/', function(req, res, next){
-//     var sess = req.session;
-//     if(sess.name){
-//         console.log('hello');
-//     }else{
-//         console.log('shoot~~~');
-//     }
+router.post('/', function(req, res, next) {
 
-//     sess.name = 'titus';
-//     res.json('{name: titus}');
-// });
+    var articleUrl = req.body.articleUrl;
 
-router.post('/firstLogin', function(req, res, next) {
-    var username = req.body.username;
-    var password = req.body.password;
+    if(articleUrl){
+        // console.log(articleUrl);
+        var options = {
+              uri : 'https://graph.facebook.com/v2.7/' + articleUrl + '?access_token=917307478388825|ba750704881d6d0c1cb3c7245c37af31',
+              method :  'GET',
+              headers:  {
+                  'Cache-Control': 'private, no-cache, no-store, must-revalidate',
+                  'Expires': '-1',
+                  'Pragma': 'no-cache'
+              }
+        };
 
-    var firstAuthResult = auth.firstAuth(username, password);
-    if(firstAuthResult){
-        var secret = speakEasy.generateSecret();
-        // var url = speakEasy.otpauthURL({ secret: secret.ascii, label: 'Name of Secret', algorithm: 'sha512' });
 
-        console.log('secret is : ' + secret);
-        console.log('secret base32 is : ' + secret.base32);
+        Request(options, function (err, response, body) {
+            if (err) {
+                return callback(err);
+            };
 
-        req.session.authKey = secret.base32;
+            var statusCode = response.statusCode;
+            switch(statusCode){
+                case 200 :
+                    try{
+                        var parsed = JSON.parse(body);
+                        console.log(parsed);
+                        res.render('share/result',
+                            {
+                                queryUrl: articleUrl,
+                                count: parsed.share.share_count
+                            }
+                        );
+                    }catch(err){
+                        console.error(err);
+                    }
 
-        console.log(req.session);
+                    break;
+                case 404 :
+                    console.log('404 Not Found.');
+                    break;
+                default :
+                    console.log('api call error : ' + body);
+            }
+          });
 
-        QRCode.toDataURL(secret.otpauth_url, function(err, url) {
-            res.render('login/qrcode',{qrSRC : url});
-        });
-    }
-});
-
-router.post('/secondAuth', function(req, res, next){
-    var token = req.body.twoAuthToken;
-
-    var sessionsecret = req.session.authKey;
-    console.log(req.session);
-
-    var verified = speakEasy.totp.verify({
-      secret: sessionsecret,
-      encoding: 'base32',
-      token: token
-    });
-
-    if(verified){
-        res.render('login/welcome', {description: 'We make the site as secure as u wish'});
     }else{
-        res.render('login/login', {description: ' Sorry ! U have to login again.'});
+        console.log('NO query param');
+        res.render('share/error',
+            {
+                description: 'check facebook share',
+                inputAlert : '請輸入url'
+            }
+        );
     }
-
-});
-
-router.get('/callback/:uid', function(req, res, next){
-    console.log('the uid is : '+req.params.uid);
-    auth.test1(function(result){
-        if(result){
-            auth.test2(function(){
-                return res.json({name: 'jin',age:38});
-            });
-        }
-    });
 });
 
 module.exports = router;

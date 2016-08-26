@@ -40,12 +40,14 @@ app.use(session({
 }));
 
 var index = require('./routes/index');
+var share = require('./routes/share');
+
 app.use('/', index);
 app.use('/hello', index);
 app.use('/firstLogin', index);
 app.use('/secondAuth', index);
-app.use('/share', require('./routes/share'));
-app.use('/FBCount', require('./routes/'));
+app.use('/share', share);
+app.use('/FBCount', share);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
