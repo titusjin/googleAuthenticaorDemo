@@ -23,6 +23,7 @@
     "gm" : "~1.22.0",
     "jade": "~1.11.0",
     "log4js-node-mongodb": "^1.0.0",
+    "lodash" : "^4.15.0",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "passport": "^0.2.2",
