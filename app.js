@@ -42,15 +42,15 @@ app.use(session({
 var index = require('./routes/index');
 var share = require('./routes/share');
 
-app.use('/', index);
-app.use('/hello', index);
-app.use('/firstLogin', index);
-app.use('/secondAuth', index);
-app.use('/share', share);
-app.use('/FBCount', share);
+app.use('/', index)
+.use('/hello', index)
+.use('/firstLogin', index)
+.use('/secondAuth', index)
+.use('/share', share)
+.use('/FBCount', share)
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
